@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Adam Smallcomb">
+
+    <title>CRUD Builder</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel='stylesheet' type='text/css' href='//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css'>
+    <link rel='stylesheet' type='text/css' href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+
+    <!-- Custom styles for this template -->
+    <link rel='stylesheet' type='text/css' href='assets/css/style.css'>
+    <link rel='stylesheet' type='text/css' href='assets/css/cob.css'>
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+
+
+
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"></a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+        
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#"> Config<span class="sr-only">(current)</span></a></li>
+            <li><a href="#">Forms</a></li>            
+            <li><a href="#">Data</a></li>
+
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="row">
+        <div class="col-lg-12"><div class="forms"></div></div>
+    </div>
+                <div class="row">
+        <!--<div class="col-lg-3"><div id="routes"></div></div>-->
+        <div class="col-lg-12"><div id="table"></div></div>
+    </div>                
+
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ace.js" charset="utf-8"></script>
+    <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/hogan.js/3.0.2/hogan.min.js'></script>
+    <script type='text/javascript' src='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'></script>
+    <script type='text/javascript' src='https://rawgit.com/Cloverstone/Berry/master/bin/full.berry.min.js'></script>
+    <script type='text/javascript' src='https://rawgit.com/Cloverstone/Berry/master/bin/bootstrap.full.berry.js'></script>
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js'></script>
+    <script type='text/javascript' src='https://rawgit.com/Cloverstone/berryTables/master/bin/js/berryTables.min.js'></script>
+    <script type='text/javascript' src='assets/js/cob.js'></script>
+    <script type='text/javascript' src='assets/js/form.cob.js'></script>
+    <script type='text/javascript' src='assets/js/paged.js'></script>
+    <script type='text/javascript' src='assets/js/sortable.js'></script>
+
+    <script>
+    // $('#routes').berry({
+    //     // actions:false,
+    //     fields:[
+    //         {label:'Create'},
+    //         {label:'Read'},
+    //         {label:'Update'},
+    //         {label:'Delete'},
+    //     ]
+    // }).on('save',function(){
+            
+        bt = new berryTable({
+            entries: [25, 50, 100],
+            count: 25,
+            container: '#table', 
+            schema: [
+                {name:'hello'}
+            ], 
+            data: [],
+            add: function(model) {
+                // model.attributes.timestamp = moment().format('YYYY-MM-DD HH:mm:ss'); 
+                // this.app.post('toppings',model.attributes,function(data){
+                //     model.attributes.DOCID = data.DOCID
+                //     this.owner.draw()
+                // })
+            }.bind(this),
+            edit: function(model) {
+                // this.app.put('toppings',model.attributes,function(){})
+            }.bind(this),
+            delete: function(model) {
+                // this.app.delete('toppings',{"DOCID":model.attributes.DOCID},function(){})
+            }.bind(this),
+        })   
+    // })
+    templates["formEditor"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"row\">");t.b("\n" + i);t.b("    <div class=\"col-sm-8 form-horizontal widget_container cobler_select cobler_container\" id=\"editor\"></div");t.b("\n" + i);t.b("    ><div class=\"col-sm-4\">");t.b("\n" + i);t.b("        <div id=\"form\"></div>");t.b("\n" + i);t.b("        <ul id=\"sortableList\" class=\"list-group \">");t.b("\n" + i);t.b("            <li class=\"list-group-item\" data-type=\"textbox\">Text</li>");t.b("\n" + i);t.b("            <li class=\"list-group-item\" data-type=\"select\">Select</li>");t.b("\n" + i);t.b("            <li class=\"list-group-item\" data-type=\"checkbox\">Checkbox</li>");t.b("\n" + i);t.b("        </ul>");t.b("\n" + i);t.b("    </div>");t.b("\n" + i);t.b("</div>");return t.fl(); },partials: {}, subs: {  }});
+    templates["itemContainer"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"cobler-li-content\"></div>");t.b("\n" + i);t.b("<div class=\"btn-group parent-hover\">");t.b("\n" + i);t.b("    <span class=\"remove-item btn btn-danger fa fa-trash-o\" data-title=\"Remove\"></span>");t.b("\n" + i);t.b("    <span class=\"duplicate-item btn btn-default fa fa-copy\" data-title=\"Duplicate\"></span>");t.b("\n" + i);t.b("</div>");return t.fl(); },partials: {}, subs: {  }});
+    templates["pages"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"row\">");t.b("\n" + i);t.b("		  <div class=\"col-sm-9\">");t.b("\n" + i);t.b("		  <div class=\"tab-content\">");t.b("\n" + i);if(t.s(t.f("items",c,p,1),c,p,0,91,121,"{{ }}")){t.rs(c,p,function(c,p,t){t.b(t.rp("<pages_tabpanel0",c,p,"			"));});c.pop();}t.b("		  </div></div>");t.b("\n" + i);t.b("		  <div class=\"col-sm-3\" style=\"padding-top: 5px;\">");t.b("\n" + i);if(t.s(t.f("editable",c,p,1),c,p,0,219,1117,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("		    	");if(t.s(t.f("hasextra",c,p,1),c,p,0,240,349,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("<a href=\"javascript:void(0);\" class=\"pages_extra btn btn-default pull-right\" ><i class=\"fa fa-gears\"></i></a>");});c.pop();}t.b("\n");t.b("\n" + i);t.b("				<div class=\"actions\" style=\"height:40px\">");t.b("\n" + i);t.b("				");t.b("\n" + i);t.b("				<div class=\"btn-group\">");t.b("\n" + i);t.b("								<button type=\"button\" class=\"btn  btn-info go pages_new\">New <span class=\"\">");t.b(t.v(t.f("label",c,p,0)));t.b("</span></button>");t.b("\n" + i);t.b("								<button type=\"button\" class=\"btn btn-info dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");t.b("\n" + i);t.b("									<span class=\"caret\"></span>");t.b("\n" + i);t.b("									<span class=\"sr-only\">Toggle Dropdown</span>");t.b("\n" + i);t.b("								</button>");t.b("\n" + i);t.b("								<ul class=\"dropdown-menu dropdown-menu-right\">");t.b("\n" + i);t.b("									<li><a href=\"javascript:void(0);\" class=\"pages_edit\" ><i class=\"fa fa-pencil\"></i> Edit Name</a></li>");t.b("\n" + i);t.b("									<li><a href=\"javascript:void(0);\" class=\"pages_delete\" ><i class=\"fa fa-times\"></i> Delete</a></li>");t.b("\n" + i);t.b("								</ul>");t.b("\n" + i);t.b("							</div>");t.b("\n" + i);t.b("				</div>");t.b("\n");t.b("\n" + i);});c.pop();}t.b("\n" + i);t.b("		  <div class=\"list-group\" style=\"margin-right: 15px;\">");t.b("\n" + i);t.b(t.rp("<pages_listgroupitem1",c,p,"			"));t.b("		  </div>");t.b("\n" + i);t.b("		  </div>");t.b("\n" + i);t.b("		  <div class=\"dummyTarget\"></div>");t.b("\n" + i);t.b("		</div>");return t.fl(); },partials: {"<pages_tabpanel0":{name:"pages_tabpanel", partials: {}, subs: {  }},"<pages_listgroupitem1":{name:"pages_listgroupitem", partials: {}, subs: {  }}}, subs: {  }});
+templates["pages_listgroupitem"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");if(t.s(t.f("items",c,p,1),c,p,0,10,202,"{{ }}")){t.rs(c,p,function(c,p,t){if(!t.s(t.f("removed",c,p,1),c,p,1,0,0,"")){t.b("<a class=\"list-group-item tab\" href=\"#");t.b(t.v(t.f("key",c,p,0)));t.b("\" name=\"");t.b(t.v(t.f("key",c,p,0)));t.b("\" aria-controls=\"");t.b(t.v(t.f("key",c,p,0)));t.b("\" data-toggle=\"tab\">");if(t.s(t.f("disabled",c,p,1),c,p,0,139,164,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("<i class=\"fa fa-ban\"></i>");});c.pop();}t.b(" ");t.b(t.v(t.f("name",c,p,0)));t.b("</a>");};});c.pop();}return t.fl(); },partials: {}, subs: {  }});
+templates["pages_tabpanel"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div role=\"tabpanel\" class=\"tab-pane ");t.b(t.v(t.f("key",c,p,0)));t.b("\" id=\"");t.b(t.v(t.f("key",c,p,0)));t.b("\"></div>");return t.fl(); },partials: {}, subs: {  }});
+templates["user_list"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");if(t.s(t.d("users.length",c,p,1),c,p,0,17,44,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("Click a user to take action");});c.pop();}t.b("<hr style=\"border:solid 1px #333\">");if(!t.s(t.d("users.length",c,p,1),c,p,1,0,0,"")){t.b("No results");};t.b("<div class=\"list-group\">");if(t.s(t.f("users",c,p,1),c,p,0,173,281,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("<a href=\"javascript:void(0);\" class=\"list-group-item user\" data-id=\"");t.b(t.v(t.f("id",c,p,0)));t.b("\">");t.b(t.v(t.f("first_name",c,p,0)));t.b(" ");t.b(t.v(t.f("last_name",c,p,0)));t.b("</a>");});c.pop();}t.b("</div>");return t.fl(); },partials: {}, subs: {  }});
+
+
+      formPage = new paged('.forms',{name:'forms', items:[{name:'Create',content:'', disabled: true},{name:'Update',content:'', disabled: true}], mode:'ace/mode/javascript', label:'Form',extra: function(item){
+
+    item.content = this.berry.fields[this.active].toJSON();
+    if (!_.some(JSON.parse(item.content||'{}').fields, function(o) { return _.has(o, "fields"); })) {
+
+      modalForm(item.content, item.name, function(){
+
+        var old = formPage.getCurrent();
+        
+        formPage.update(old.key, JSON.stringify($.extend(true, {}, JSON.parse(old.content||'{}'),{"fields":cb.toJSON({editor:false})[0]}), null, 2 ))
+      });
+    }else{
+      toastr.error('If you would like to continue using the form builder UI you will need to remove any fieldsets', 'Fieldsets Not Supported');
+    }
+  }});
+
+function modalForm(form, name, onSave) {
+
+  if(typeof cb === 'undefined'){
+    if(typeof form === 'string'){
+      form = JSON.parse(form || '{}');
+    }
+    form = form || {};
+    $('#myModal').remove();
+    this.onSave = onSave;
+    this.ref = $(templates.modal.render({title: 'Form Editor: '+ name}));
+    $(this.ref).appendTo('body');
+    this.ref.find('.modal-body').html(templates.formEditor.render());
+    this.ref.find('.modal-footer').html('<div id="saveForm" class="btn btn-success"><i class="fa fa-check"></i> Save</div>');
+    this.ref.on('hide.bs.modal', function(){
+      cb.destroy();
+      delete cb;
+    });
+    this.ref.find('#saveForm').on('click', function(){
+      this.onSave.call(this)
+      this.ref.modal('hide');
+      
+    }.bind(this))
+    this.ref.modal();
+
+    cb = new Cobler({formOptions:{inline:true},formTarget:$('#form'), disabled: false, targets: [document.getElementById('editor')],items:[[]]});
+    $('.modal #form').keydown(function(event) {
+      switch(event.keyCode) {
+        case 27://escape
+            event.stopPropagation();
+            cb.deactivate();
+            return false;
+          break;
+      }
+    });
+    list = document.getElementById('sortableList');
+    cb.addSource(list);
+    cb.on('activate', function(){
+      if(list.className.indexOf('hidden') == -1){
+        list.className += ' hidden';
+      }
+      $('#form').removeClass('hidden');
+    })
+    cb.on('deactivate', function(){
+      list.className = list.className.replace('hidden', '');
+      $('#form').addClass('hidden');
+    })
+    document.getElementById('sortableList').addEventListener('click', function(e) {
+      cb.collections[0].addItem(e.target.dataset.type);
+    })
+  }
+
+  if(typeof form !== 'undefined'){
+    var temp = $.extend(true, {}, form);
+    for(var i in temp.fields){
+
+      temp.fields[i] = Berry.normalizeItem(Berry.processOpts(temp.fields[i]), i);
+      switch(temp.fields[i].type) {
+        case "select":
+        case "radio":
+          temp.fields[i].widgetType = 'select';
+          break;
+        case "checkbox":
+          temp.fields[i].widgetType = 'checkbox';
+          break;
+        default:
+          temp.fields[i].widgetType = 'textbox';
+      }
+
+    }
+
+    list.className = list.className.replace('hidden', '');
+    cb.collections[0].load(temp.fields);
+  }
+}
+
+
+
+
+
+    </script>
+</body>

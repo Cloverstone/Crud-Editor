@@ -1,0 +1,79 @@
+
+.parent-hover{visibility: hidden;}
+*:hover > .parent-hover{visibility: visible;}
+.cobler_container{list-style:none;/*padding-left:0;*/}
+.cobler_container > li > .parent-hover{z-index: 10;opacity:.6;position:absolute;top:5px;right:5px;}
+.cobler_container > li{position: relative;display: block;overflow:hidden;}
+.cobler_container > li:hover{outline:dashed 1px #ccc;z-index: 1}
+.cobler_container > li.sortable-chosen {outline:none;outline:dashed 1px #222;background:#fff;}
+.cobler_container > li.sortable-ghost {opacity: 1;border:solid 0px #ccc;}
+.cobler_container > li.sortable-ghost .parent-hover{display:none !important;}
+.cobler_select.cobler_container > li:before{content:'';z-index: 10; position: absolute; top: 0; bottom: 0; left: 0; right: 0;}
+.cobler_select.cobler_container > li.widget_active{outline: dashed 1px #222;z-index: 2;background:#FFFFF8;}
+.cobler_select.cobler_container > li.sortable-ghost:before{background:#fff;}
+
+
+.cobler_container > li.widget_active{outline: dashed 1px #999;z-index: 2;background:#FFFFF8;}
+
+
+/*.opaque.cobler_container > li.sortable-ghost {opacity: 0;}
+.opaque.cobler_container > li.sortable-fallback {opacity: 1 !important;overflow:initial;}
+.opaque.cobler_container > li.sortable-chosen {outline:none;border:0;margin:0;background:none}
+.opaque.cobler_container > li:hover .cobler-li-content{box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);}
+.opaque.cobler_container > li.sortable-chosen .cobler-li-content{box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);}
+.opaque.cobler_container > li:hover{outline:0;}*/
+
+.cobler_container{min-height: 50px;}
+
+.editor .editTools{display:none}
+.editor .editTools.hidden{display:block !important;visibility: visible !important}
+
+
+/*berryTables*/
+[data-popins]{ border-bottom: 1px dotted;}
+[data-popins]{cursor: pointer; }
+/*[data-inline] .form-group{margin-bottom:0;}  */
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+/*.ace_editor{height:500px}*/
+
+.dupable{padding-left:60px;}
+.dupable hr{
+margin:5px 0px 5px -60px
+}
+.dupable .actions{
+    position: absolute;
+    left: 0;
+}
+.editor .slice,#sortableList a{
+    cursor:move;
+}
+#page li.widget_active{padding: 10px;cursor:default}
+
+.note-editor.note-frame.fullscreen {
+    top: 50px;
+    left: 200px;
+}
+.sortable-ghost{padding:10px;color:#666;font-size:16px}
+.nodisplay{display: none;}
+[data-event=add].custom-event-all,[data-event=edit].custom-event-all,[data-event=delete].custom-event-all{display:none}
+
+.list-group-item .handle{color:#aaa;width: 45px;background:#fcfdfc;text-align:center;border-right: solid 1px #eee;cursor:move;padding-top: 18px;padding-bottom: 18px;margin: -10px 20px -10px -15px;display: inline-block;font:normal normal normal 14px/1 FontAwesome;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.list-group-item:hover .handle{background:#f8f8f8;color:#626262;}
+.list-group-item .handle:before{
+      content: "\f0c9";
+}
+
+
+.cob-collapsed .collapsible{display:none;}
+
+.on-collapse{display:none;}
+.editing .on-collapse, .cob-collapsed .on-collapse{display:block;}
+
