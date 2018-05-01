@@ -56,22 +56,21 @@
         
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#"> Config<span class="sr-only">(current)</span></a></li>
-            <li><a href="#">Forms</a></li>            
-            <li><a href="#">Data</a></li>
+          <ul class="nav nav-sidebar" role="tablist">
+            <li role="presentation" class="active"><a href="#config" aria-controls="settings" role="tab" data-toggle="tab"> Config<span class="sr-only">(current)</span></a></li>
+            <li role="presentation"><a href="#forms" aria-controls="settings" role="tab" data-toggle="tab">Forms</a></li>            
+            <li role="presentation"><a href="#table" aria-controls="settings" role="tab" data-toggle="tab">Data</a></li>
 
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-                <div class="row">
-        <div class="col-lg-12"><div class="forms"></div></div>
-    </div>
-                <div class="row">
-        <!--<div class="col-lg-3"><div id="routes"></div></div>-->
-        <div class="col-lg-12"><div id="table"></div></div>
-    </div>                
-
+         
+ <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="config"><div id="routes"></div></div>
+    <div role="tabpanel" class="tab-pane" id="forms"><div class="forms"></div></div>
+    <div role="tabpanel" class="tab-pane" id="table"><div id="table"></div></div>
+  </div>
 
         </div>
       </div>
@@ -97,23 +96,21 @@
     <script type='text/javascript' src='assets/js/sortable.js'></script>
 
     <script>
-    // $('#routes').berry({
-    //     // actions:false,
-    //     fields:[
-    //         {label:'Create'},
-    //         {label:'Read'},
-    //         {label:'Update'},
-    //         {label:'Delete'},
-    //     ]
-    // }).on('save',function(){
-            
+    $('#routes').berry({
+        // actions:false,
+        fields:[
+            {label:'Create'},
+            {label:'Read'},
+            {label:'Update'},
+            {label:'Delete'},
+        ]
+    }).on('save',function(){
+            // debugger;
         bt = new berryTable({
             entries: [25, 50, 100],
             count: 25,
             container: '#table', 
-            schema: [
-                {name:'hello'}
-            ], 
+            schema: JSON.parse(formPage.toJSON()[0].content).fields, 
             data: [],
             add: function(model) {
                 // model.attributes.timestamp = moment().format('YYYY-MM-DD HH:mm:ss'); 
@@ -129,16 +126,16 @@
                 // this.app.delete('toppings',{"DOCID":model.attributes.DOCID},function(){})
             }.bind(this),
         })   
-    // })
+    })
     templates["formEditor"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"row\">");t.b("\n" + i);t.b("    <div class=\"col-sm-8 form-horizontal widget_container cobler_select cobler_container\" id=\"editor\"></div");t.b("\n" + i);t.b("    ><div class=\"col-sm-4\">");t.b("\n" + i);t.b("        <div id=\"form\"></div>");t.b("\n" + i);t.b("        <ul id=\"sortableList\" class=\"list-group \">");t.b("\n" + i);t.b("            <li class=\"list-group-item\" data-type=\"textbox\">Text</li>");t.b("\n" + i);t.b("            <li class=\"list-group-item\" data-type=\"select\">Select</li>");t.b("\n" + i);t.b("            <li class=\"list-group-item\" data-type=\"checkbox\">Checkbox</li>");t.b("\n" + i);t.b("        </ul>");t.b("\n" + i);t.b("    </div>");t.b("\n" + i);t.b("</div>");return t.fl(); },partials: {}, subs: {  }});
     templates["itemContainer"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"cobler-li-content\"></div>");t.b("\n" + i);t.b("<div class=\"btn-group parent-hover\">");t.b("\n" + i);t.b("    <span class=\"remove-item btn btn-danger fa fa-trash-o\" data-title=\"Remove\"></span>");t.b("\n" + i);t.b("    <span class=\"duplicate-item btn btn-default fa fa-copy\" data-title=\"Duplicate\"></span>");t.b("\n" + i);t.b("</div>");return t.fl(); },partials: {}, subs: {  }});
     templates["pages"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"row\">");t.b("\n" + i);t.b("		  <div class=\"col-sm-9\">");t.b("\n" + i);t.b("		  <div class=\"tab-content\">");t.b("\n" + i);if(t.s(t.f("items",c,p,1),c,p,0,91,121,"{{ }}")){t.rs(c,p,function(c,p,t){t.b(t.rp("<pages_tabpanel0",c,p,"			"));});c.pop();}t.b("		  </div></div>");t.b("\n" + i);t.b("		  <div class=\"col-sm-3\" style=\"padding-top: 5px;\">");t.b("\n" + i);if(t.s(t.f("editable",c,p,1),c,p,0,219,1117,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("		    	");if(t.s(t.f("hasextra",c,p,1),c,p,0,240,349,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("<a href=\"javascript:void(0);\" class=\"pages_extra btn btn-default pull-right\" ><i class=\"fa fa-gears\"></i></a>");});c.pop();}t.b("\n");t.b("\n" + i);t.b("				<div class=\"actions\" style=\"height:40px\">");t.b("\n" + i);t.b("				");t.b("\n" + i);t.b("				<div class=\"btn-group\">");t.b("\n" + i);t.b("								<button type=\"button\" class=\"btn  btn-info go pages_new\">New <span class=\"\">");t.b(t.v(t.f("label",c,p,0)));t.b("</span></button>");t.b("\n" + i);t.b("								<button type=\"button\" class=\"btn btn-info dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");t.b("\n" + i);t.b("									<span class=\"caret\"></span>");t.b("\n" + i);t.b("									<span class=\"sr-only\">Toggle Dropdown</span>");t.b("\n" + i);t.b("								</button>");t.b("\n" + i);t.b("								<ul class=\"dropdown-menu dropdown-menu-right\">");t.b("\n" + i);t.b("									<li><a href=\"javascript:void(0);\" class=\"pages_edit\" ><i class=\"fa fa-pencil\"></i> Edit Name</a></li>");t.b("\n" + i);t.b("									<li><a href=\"javascript:void(0);\" class=\"pages_delete\" ><i class=\"fa fa-times\"></i> Delete</a></li>");t.b("\n" + i);t.b("								</ul>");t.b("\n" + i);t.b("							</div>");t.b("\n" + i);t.b("				</div>");t.b("\n");t.b("\n" + i);});c.pop();}t.b("\n" + i);t.b("		  <div class=\"list-group\" style=\"margin-right: 15px;\">");t.b("\n" + i);t.b(t.rp("<pages_listgroupitem1",c,p,"			"));t.b("		  </div>");t.b("\n" + i);t.b("		  </div>");t.b("\n" + i);t.b("		  <div class=\"dummyTarget\"></div>");t.b("\n" + i);t.b("		</div>");return t.fl(); },partials: {"<pages_tabpanel0":{name:"pages_tabpanel", partials: {}, subs: {  }},"<pages_listgroupitem1":{name:"pages_listgroupitem", partials: {}, subs: {  }}}, subs: {  }});
-templates["pages_listgroupitem"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");if(t.s(t.f("items",c,p,1),c,p,0,10,202,"{{ }}")){t.rs(c,p,function(c,p,t){if(!t.s(t.f("removed",c,p,1),c,p,1,0,0,"")){t.b("<a class=\"list-group-item tab\" href=\"#");t.b(t.v(t.f("key",c,p,0)));t.b("\" name=\"");t.b(t.v(t.f("key",c,p,0)));t.b("\" aria-controls=\"");t.b(t.v(t.f("key",c,p,0)));t.b("\" data-toggle=\"tab\">");if(t.s(t.f("disabled",c,p,1),c,p,0,139,164,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("<i class=\"fa fa-ban\"></i>");});c.pop();}t.b(" ");t.b(t.v(t.f("name",c,p,0)));t.b("</a>");};});c.pop();}return t.fl(); },partials: {}, subs: {  }});
-templates["pages_tabpanel"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div role=\"tabpanel\" class=\"tab-pane ");t.b(t.v(t.f("key",c,p,0)));t.b("\" id=\"");t.b(t.v(t.f("key",c,p,0)));t.b("\"></div>");return t.fl(); },partials: {}, subs: {  }});
-templates["user_list"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");if(t.s(t.d("users.length",c,p,1),c,p,0,17,44,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("Click a user to take action");});c.pop();}t.b("<hr style=\"border:solid 1px #333\">");if(!t.s(t.d("users.length",c,p,1),c,p,1,0,0,"")){t.b("No results");};t.b("<div class=\"list-group\">");if(t.s(t.f("users",c,p,1),c,p,0,173,281,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("<a href=\"javascript:void(0);\" class=\"list-group-item user\" data-id=\"");t.b(t.v(t.f("id",c,p,0)));t.b("\">");t.b(t.v(t.f("first_name",c,p,0)));t.b(" ");t.b(t.v(t.f("last_name",c,p,0)));t.b("</a>");});c.pop();}t.b("</div>");return t.fl(); },partials: {}, subs: {  }});
+    templates["pages_listgroupitem"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");if(t.s(t.f("items",c,p,1),c,p,0,10,202,"{{ }}")){t.rs(c,p,function(c,p,t){if(!t.s(t.f("removed",c,p,1),c,p,1,0,0,"")){t.b("<a class=\"list-group-item tab\" href=\"#");t.b(t.v(t.f("key",c,p,0)));t.b("\" name=\"");t.b(t.v(t.f("key",c,p,0)));t.b("\" aria-controls=\"");t.b(t.v(t.f("key",c,p,0)));t.b("\" data-toggle=\"tab\">");if(t.s(t.f("disabled",c,p,1),c,p,0,139,164,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("<i class=\"fa fa-ban\"></i>");});c.pop();}t.b(" ");t.b(t.v(t.f("name",c,p,0)));t.b("</a>");};});c.pop();}return t.fl(); },partials: {}, subs: {  }});
+    templates["pages_tabpanel"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div role=\"tabpanel\" class=\"tab-pane ");t.b(t.v(t.f("key",c,p,0)));t.b("\" id=\"");t.b(t.v(t.f("key",c,p,0)));t.b("\"></div>");return t.fl(); },partials: {}, subs: {  }});
+    templates["user_list"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");if(t.s(t.d("users.length",c,p,1),c,p,0,17,44,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("Click a user to take action");});c.pop();}t.b("<hr style=\"border:solid 1px #333\">");if(!t.s(t.d("users.length",c,p,1),c,p,1,0,0,"")){t.b("No results");};t.b("<div class=\"list-group\">");if(t.s(t.f("users",c,p,1),c,p,0,173,281,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("<a href=\"javascript:void(0);\" class=\"list-group-item user\" data-id=\"");t.b(t.v(t.f("id",c,p,0)));t.b("\">");t.b(t.v(t.f("first_name",c,p,0)));t.b(" ");t.b(t.v(t.f("last_name",c,p,0)));t.b("</a>");});c.pop();}t.b("</div>");return t.fl(); },partials: {}, subs: {  }});
 
 
-      formPage = new paged('.forms',{name:'forms', items:[{name:'Create',content:'', disabled: true},{name:'Update',content:'', disabled: true}], mode:'ace/mode/javascript', label:'Form',extra: function(item){
+    formPage = new paged('.forms',{name:'forms', items:[{name:'Create',content:'', disabled: true},{name:'Update',content:'', disabled: true}], mode:'ace/mode/javascript', label:'Form',extra: function(item){
 
     item.content = this.berry.fields[this.active].toJSON();
     if (!_.some(JSON.parse(item.content||'{}').fields, function(o) { return _.has(o, "fields"); })) {
@@ -185,7 +182,6 @@ function modalForm(form, name, onSave) {
             event.stopPropagation();
             cb.deactivate();
             return false;
-          break;
       }
     });
     list = document.getElementById('sortableList');
@@ -231,6 +227,59 @@ function modalForm(form, name, onSave) {
 
 
 
+/**
+ * jQuery Plugin: Sticky Tabs
+ *
+ * @author Aidan Lister <aidan@php.net>
+ * @version 1.2.0
+ */
+(function ( $ ) {
+    $.fn.stickyTabs = function( options ) {
+        var context = this
+
+        var settings = $.extend({
+            getHashCallback: function(hash, btn) { return hash }
+        }, options );
+
+        // Show the tab corresponding with the hash in the URL, or the first tab.
+        var showTabFromHash = function() {
+          var hash = window.location.hash;
+          var selector = hash ? 'a[href="' + hash + '"]' : 'li.active > a';
+          $(selector, context).tab('show');
+        }
+
+        // We use pushState if it's available so the page won't jump, otherwise a shim.
+        var changeHash = function(hash) {
+          if (history && history.pushState) {
+            history.pushState(null, null, '#' + hash);
+          } else {
+            scrollV = document.body.scrollTop;
+            scrollH = document.body.scrollLeft;
+            window.location.hash = hash;
+            document.body.scrollTop = scrollV;
+            document.body.scrollLeft = scrollH;
+          }
+        }
+
+        // Set the correct tab when the page loads
+        showTabFromHash(context)
+
+        // Set the correct tab when a user uses their back/forward button
+        $(window).on('hashchange', showTabFromHash);
+
+        // Change the URL when tabs are clicked
+        $('a', context).on('click', function(e) {
+          var hash = this.href.split('#')[1];
+          var adjustedhash = settings.getHashCallback(hash, this);
+          changeHash(adjustedhash);
+        });
+
+        return this;
+    };
+
+    		  		$('.nav-sidebar').stickyTabs();
+
+}( jQuery ));
 
 
     </script>
