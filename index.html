@@ -39,7 +39,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">Crud</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -57,9 +57,9 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar" role="tablist">
-            <li role="presentation" class="active"><a href="#config" aria-controls="settings" role="tab" data-toggle="tab"> Config<span class="sr-only">(current)</span></a></li>
-            <li role="presentation"><a href="#forms" aria-controls="settings" role="tab" data-toggle="tab">Forms</a></li>            
-            <li role="presentation"><a href="#table" aria-controls="settings" role="tab" data-toggle="tab">Data</a></li>
+            <li role="presentation" class="active"><a href="#config" aria-controls="config" role="tab" data-toggle="tab"> Config<span class="sr-only">(current)</span></a></li>
+            <li role="presentation"><a href="#forms" aria-controls="forms" role="tab" data-toggle="tab">Forms</a></li>            
+            <li role="presentation"><a href="#tabletab" id="clickable" aria-controls="tabletab" role="tab" data-toggle="tab">Data</a></li>
 
           </ul>
         </div>
@@ -69,7 +69,7 @@
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="config"><div id="routes"></div></div>
     <div role="tabpanel" class="tab-pane" id="forms"><div class="forms"></div></div>
-    <div role="tabpanel" class="tab-pane" id="table"><div id="table"></div></div>
+    <div role="tabpanel" class="tab-pane" id="tabletab"><div id="table"></div></div>
   </div>
 
         </div>
@@ -89,7 +89,7 @@
     <script type='text/javascript' src='https://rawgit.com/Cloverstone/Berry/master/bin/full.berry.min.js'></script>
     <script type='text/javascript' src='https://rawgit.com/Cloverstone/Berry/master/bin/bootstrap.full.berry.js'></script>
     <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js'></script>
-    <script type='text/javascript' src='https://rawgit.com/Cloverstone/berryTables/master/bin/js/berryTables.min.js'></script>
+    <script type='text/javascript' src='https://rawgit.com/Cloverstone/berryTables/master/bin/js/berryTables.full.js'></script>
     <script type='text/javascript' src='assets/js/cob.js'></script>
     <script type='text/javascript' src='assets/js/form.cob.js'></script>
     <script type='text/javascript' src='assets/js/paged.js'></script>
@@ -97,36 +97,23 @@
 
     <script>
     $('#routes').berry({
-        // actions:false,
+        actions:false,
         fields:[
-            {label:'Create'},
-            {label:'Read'},
-            {label:'Update'},
-            {label:'Delete'},
+            {label:'Read', columns:10}, {name:'read_method', columns:2, label:false, value:'GET', options:['GET', 'POST', 'PUT', 'PATCH', 'DELETE']},
+            {label:'Create', columns:10}, {name:'create_method', columns:2, label:false, value:'POST', options:['GET', 'POST', 'PUT', 'PATCH', 'DELETE']},
+            {label:'Update', columns:10}, {name:'update_method', columns:2, label:false, value:'PUT', options:['GET', 'POST', 'PUT', 'PATCH', 'DELETE']},
+            {label:'Delete', columns:10}, {name:'delete_method', columns:2, label:false, value:'DELETE', options:['GET', 'POST', 'PUT', 'PATCH', 'DELETE']},
         ]
+    }).on('change:read',function(e){
+      this.fields.create.update({'placeholder':e.value})
+      this.fields.update.update({'placeholder':e.value})
+      this.fields.delete.update({'placeholder':e.value})
     }).on('save',function(){
-            // debugger;
-        bt = new berryTable({
-            entries: [25, 50, 100],
-            count: 25,
-            container: '#table', 
-            schema: JSON.parse(formPage.toJSON()[0].content).fields, 
-            data: [],
-            add: function(model) {
-                // model.attributes.timestamp = moment().format('YYYY-MM-DD HH:mm:ss'); 
-                // this.app.post('toppings',model.attributes,function(data){
-                //     model.attributes.DOCID = data.DOCID
-                //     this.owner.draw()
-                // })
-            }.bind(this),
-            edit: function(model) {
-                // this.app.put('toppings',model.attributes,function(){})
-            }.bind(this),
-            delete: function(model) {
-                // this.app.delete('toppings',{"DOCID":model.attributes.DOCID},function(){})
-            }.bind(this),
-        })   
+
     })
+
+
+    
     templates["formEditor"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"row\">");t.b("\n" + i);t.b("    <div class=\"col-sm-8 form-horizontal widget_container cobler_select cobler_container\" id=\"editor\"></div");t.b("\n" + i);t.b("    ><div class=\"col-sm-4\">");t.b("\n" + i);t.b("        <div id=\"form\"></div>");t.b("\n" + i);t.b("        <ul id=\"sortableList\" class=\"list-group \">");t.b("\n" + i);t.b("            <li class=\"list-group-item\" data-type=\"textbox\">Text</li>");t.b("\n" + i);t.b("            <li class=\"list-group-item\" data-type=\"select\">Select</li>");t.b("\n" + i);t.b("            <li class=\"list-group-item\" data-type=\"checkbox\">Checkbox</li>");t.b("\n" + i);t.b("        </ul>");t.b("\n" + i);t.b("    </div>");t.b("\n" + i);t.b("</div>");return t.fl(); },partials: {}, subs: {  }});
     templates["itemContainer"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"cobler-li-content\"></div>");t.b("\n" + i);t.b("<div class=\"btn-group parent-hover\">");t.b("\n" + i);t.b("    <span class=\"remove-item btn btn-danger fa fa-trash-o\" data-title=\"Remove\"></span>");t.b("\n" + i);t.b("    <span class=\"duplicate-item btn btn-default fa fa-copy\" data-title=\"Duplicate\"></span>");t.b("\n" + i);t.b("</div>");return t.fl(); },partials: {}, subs: {  }});
     templates["pages"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||"");t.b("<div class=\"row\">");t.b("\n" + i);t.b("		  <div class=\"col-sm-9\">");t.b("\n" + i);t.b("		  <div class=\"tab-content\">");t.b("\n" + i);if(t.s(t.f("items",c,p,1),c,p,0,91,121,"{{ }}")){t.rs(c,p,function(c,p,t){t.b(t.rp("<pages_tabpanel0",c,p,"			"));});c.pop();}t.b("		  </div></div>");t.b("\n" + i);t.b("		  <div class=\"col-sm-3\" style=\"padding-top: 5px;\">");t.b("\n" + i);if(t.s(t.f("editable",c,p,1),c,p,0,219,1117,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("		    	");if(t.s(t.f("hasextra",c,p,1),c,p,0,240,349,"{{ }}")){t.rs(c,p,function(c,p,t){t.b("<a href=\"javascript:void(0);\" class=\"pages_extra btn btn-default pull-right\" ><i class=\"fa fa-gears\"></i></a>");});c.pop();}t.b("\n");t.b("\n" + i);t.b("				<div class=\"actions\" style=\"height:40px\">");t.b("\n" + i);t.b("				");t.b("\n" + i);t.b("				<div class=\"btn-group\">");t.b("\n" + i);t.b("								<button type=\"button\" class=\"btn  btn-info go pages_new\">New <span class=\"\">");t.b(t.v(t.f("label",c,p,0)));t.b("</span></button>");t.b("\n" + i);t.b("								<button type=\"button\" class=\"btn btn-info dropdown-toggle\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");t.b("\n" + i);t.b("									<span class=\"caret\"></span>");t.b("\n" + i);t.b("									<span class=\"sr-only\">Toggle Dropdown</span>");t.b("\n" + i);t.b("								</button>");t.b("\n" + i);t.b("								<ul class=\"dropdown-menu dropdown-menu-right\">");t.b("\n" + i);t.b("									<li><a href=\"javascript:void(0);\" class=\"pages_edit\" ><i class=\"fa fa-pencil\"></i> Edit Name</a></li>");t.b("\n" + i);t.b("									<li><a href=\"javascript:void(0);\" class=\"pages_delete\" ><i class=\"fa fa-times\"></i> Delete</a></li>");t.b("\n" + i);t.b("								</ul>");t.b("\n" + i);t.b("							</div>");t.b("\n" + i);t.b("				</div>");t.b("\n");t.b("\n" + i);});c.pop();}t.b("\n" + i);t.b("		  <div class=\"list-group\" style=\"margin-right: 15px;\">");t.b("\n" + i);t.b(t.rp("<pages_listgroupitem1",c,p,"			"));t.b("		  </div>");t.b("\n" + i);t.b("		  </div>");t.b("\n" + i);t.b("		  <div class=\"dummyTarget\"></div>");t.b("\n" + i);t.b("		</div>");return t.fl(); },partials: {"<pages_tabpanel0":{name:"pages_tabpanel", partials: {}, subs: {  }},"<pages_listgroupitem1":{name:"pages_listgroupitem", partials: {}, subs: {  }}}, subs: {  }});
@@ -279,8 +266,37 @@ function modalForm(form, name, onSave) {
 
     		  		$('.nav-sidebar').stickyTabs();
 
+
+
+
+
 }( jQuery ));
 
-
+    $('body').on('shown.bs.tab', '#clickable', function (e) {
+            $('#table').off();
+            if(typeof bt !== 'undefined'){
+              bt.destroy();
+            }
+        bt = new berryTable({
+            entries: [25, 50, 100],
+            count: 25,
+            container: '#table', 
+            schema: JSON.parse(formPage.toJSON()[0].content||'{"field":[]}').fields, 
+            data: [],
+            add: function(model) {
+                // model.attributes.timestamp = moment().format('YYYY-MM-DD HH:mm:ss'); 
+                // this.app.post('toppings',model.attributes,function(data){
+                //     model.attributes.DOCID = data.DOCID
+                //     this.owner.draw()
+                // })
+            }.bind(this),
+            edit: function(model) {
+                // this.app.put('toppings',model.attributes,function(){})
+            }.bind(this),
+            delete: function(model) {
+                // this.app.delete('toppings',{"DOCID":model.attributes.DOCID},function(){})
+            }.bind(this),
+        })   
+    }.bind(this))
     </script>
 </body>
